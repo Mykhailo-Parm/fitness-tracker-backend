@@ -1,26 +1,29 @@
-import { User } from '@prisma/client';
-import { prisma } from '../../../config/db';
+import { PrismaClient, User } from '@prisma/client';
 import { IUserRepository } from '../types';
 import { SIGNUP_SCHEMA_TYPE } from '../../auth/types';
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 
-@Service()
 export class UserRepository implements IUserRepository {
+  private prisma: PrismaClient;
 
+  constructor({ prisma }: { prisma: PrismaClient }) {
+    this.prisma = prisma;
+  }
+  
   async findMany(): Promise<User[]> {
     console.log('UserRepository');
-    return prisma.user.findMany();
+    return await this.prisma.user.findMany();
   }
 
   async findOne(id: number): Promise<User | null> {
-    return prisma.user.findUnique({ where: { id } });
+    return this.prisma.user.findUnique({ where: { id } });
   }
 
   async createOne(data: SIGNUP_SCHEMA_TYPE): Promise<User> {
-    return prisma.user.create({ data });
+    return this.prisma.user.create({ data });
   }
 
   async deleteOne(id: number): Promise<User> {
-    return prisma.user.delete({ where: { id } });
+    return this.prisma.user.delete({ where: { id } });
   }
 }
