@@ -9,7 +9,7 @@ export class UserRepository implements IUserRepository {
   constructor({ prisma }: { prisma: PrismaClient }) {
     this.prisma = prisma;
   }
-  
+
   async findMany(): Promise<User[]> {
     console.log('UserRepository');
     return await this.prisma.user.findMany();
@@ -25,5 +25,9 @@ export class UserRepository implements IUserRepository {
 
   async deleteOne(id: number): Promise<User> {
     return this.prisma.user.delete({ where: { id } });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 }

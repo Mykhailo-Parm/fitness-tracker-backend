@@ -8,4 +8,5 @@ export interface IUserRepository {
   findOne: (id: number) => Promise<User | null>;
   createOne: (data: SIGNUP_SCHEMA_TYPE) => Promise<User>;
   deleteOne: (id: number) => Promise<User>;
+  findByEmail: (email: string) => Promise<User | null>;
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
+import { before, GET, route } from 'awilix-express';
+import { authMiddleware } from '@src/middlewares/authMiddleware';
 import { UserService } from '../service/UserService';
-import { GET, route } from 'awilix-express';
 
 @route('/users')
 class UserController {
@@ -11,9 +12,10 @@ class UserController {
   }
 
   @GET()
+  @before([authMiddleware])
   async getAllUsers(req: Request, res: Response) {
     try {
-      console.log(111)
+      console.log(111);
       const users = await this.userService.getUsers();
       res.status(200).json(users);
     } catch (error) {
