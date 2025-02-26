@@ -13,7 +13,9 @@ const SIGNUP_SCHEMA = z.object({
 });
 
 interface AuthRequest extends Request {
-  user?: { id: number }; 
+  user: {
+    id: number;
+  };
 }
 
 type SIGNUP_SCHEMA_TYPE = z.infer<typeof SIGNUP_SCHEMA>;

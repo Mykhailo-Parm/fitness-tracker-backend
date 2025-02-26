@@ -17,9 +17,6 @@ class UserController {
   @before(authMiddleware)
   async getLoggedInUser(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      if (!req.user) {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
       const user = await this.userService.getUser(req.user.id);
       res.status(200).json(user);
     } catch (error) {
@@ -36,9 +33,6 @@ class UserController {
     next: NextFunction
   ) {
     try {
-      if (!req.user) {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
       const updatedUser = await this.userService.updateUser(
         req.user.id,
         req.body

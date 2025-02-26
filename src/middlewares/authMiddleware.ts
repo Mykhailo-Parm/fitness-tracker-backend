@@ -1,3 +1,4 @@
+import { ApiError } from '@src/utils/ApiError';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -11,14 +12,16 @@ export function authMiddleware(
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return next(new ApiError(401, 'Unauthorized'))
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    (req as any).user = decoded; // Attach user info to request
+    // Attach user info to the request object
+    (req as any).user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    
+    return next(new ApiError(401, 'Invalid token'));
   }
 }
