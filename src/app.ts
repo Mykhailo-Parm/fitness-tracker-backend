@@ -15,10 +15,7 @@ app.use(cors());
 
 app.use(scopePerRequest(container));
 
-console.log('Controllers loaded'); 
 
 app.use(loadControllers('**/modules/**/controller/*.ts', { cwd: __dirname }));
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
-});
+app.listen(PORT, () => {console.log('started')});

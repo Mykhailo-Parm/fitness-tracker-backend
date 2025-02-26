@@ -1,5 +1,7 @@
 import { User } from '@prisma/client';
 import { UserRepository } from '../repository/UserRepository';
+import { UPDATE_USER_SCHEMA } from '../types';
+import { ApiError } from '@src/utils/ApiError';
 
 export class UserService {
   private userRepository: UserRepository;
@@ -8,13 +10,22 @@ export class UserService {
     this.userRepository = userRepository;
   }
 
-  async getUsers(): Promise<User[]> {
+  async getUser(id: number): Promise<User | null> {
+    const user = await this.userRepository.findOne(id);
+    if(!user) throw ApiError.NotFound('User not found');
+    return user
+  }
+
+  async deleteUser(id: number): Promise<User> {
     try {
-      console.log('UserService');
-      return await this.userRepository.findMany();
+      return await this.userRepository.deleteOne(id);
     } catch (error) {
-      console.error('Error in UserService getUsers:', error);
-      throw new Error('Failed to retrieve users');
+      throw ApiError.NotFound('User not found or already deleted');
     }
+  }
+
+  async updateUser(id: number, data: Partial<User>): Promise<User> {
+    const validatedData = UPDATE_USER_SCHEMA.parse(data);
+    return this.userRepository.updateOne(id, validatedData);
   }
 }

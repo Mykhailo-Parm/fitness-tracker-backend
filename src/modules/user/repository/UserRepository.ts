@@ -1,7 +1,7 @@
 import { PrismaClient, User } from '@prisma/client';
 import { IUserRepository } from '../types';
 import { SIGNUP_SCHEMA_TYPE } from '../../auth/types';
-import { Inject, Service } from 'typedi';
+import { ApiError } from '@src/utils/ApiError';
 
 export class UserRepository implements IUserRepository {
   private prisma: PrismaClient;
@@ -11,8 +11,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async findMany(): Promise<User[]> {
-    console.log('UserRepository');
-    return await this.prisma.user.findMany();
+    return this.prisma.user.findMany();
   }
 
   async findOne(id: number): Promise<User | null> {
@@ -20,14 +19,26 @@ export class UserRepository implements IUserRepository {
   }
 
   async createOne(data: SIGNUP_SCHEMA_TYPE): Promise<User> {
-    return this.prisma.user.create({ data });
+    try {
+      return await this.prisma.user.create({ data });
+    } catch (error) {
+      throw ApiError.BadRequest('Failed to create user');
+    }
   }
 
   async deleteOne(id: number): Promise<User> {
-    return this.prisma.user.delete({ where: { id } });
+    try {
+      return await this.prisma.user.delete({ where: { id } });
+    } catch (error) {
+      throw ApiError.NotFound('User not found or already deleted');
+    }
   }
 
   async findByEmail(email: string): Promise<User | null> {
     return this.prisma.user.findUnique({ where: { email } });
+  }
+
+  async updateOne(id: number, data: Partial<User>): Promise<User> {
+    return this.prisma.user.update({ where: { id }, data });
   }
 }
