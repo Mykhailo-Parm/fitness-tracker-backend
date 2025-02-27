@@ -28,8 +28,7 @@ class ExerciseController {
       if (isNaN(id)) {
         return next(ApiError.BadRequest('Invalid ID'));
       }
-      const exercise = await this.exerciseService.getExercise(id);
-      res.status(200).json(exercise);
+      res.status(200).json(await this.exerciseService.getExercise(id));
     } catch (error) {
       next(error);
     }

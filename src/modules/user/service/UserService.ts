@@ -12,20 +12,15 @@ export class UserService {
 
   async getUser(id: number): Promise<User | null> {
     const user = await this.userRepository.findOne(id);
-    if(!user) throw ApiError.NotFound('User not found');
-    return user
+    if (!user) throw ApiError.NotFound('User not found');
+    return user;
   }
 
   async deleteUser(id: number): Promise<User> {
-    try {
-      return await this.userRepository.deleteOne(id);
-    } catch (error) {
-      throw ApiError.NotFound('User not found or already deleted');
-    }
+    return await this.userRepository.deleteOne(id);
   }
 
   async updateUser(id: number, data: Partial<User>): Promise<User> {
-    const validatedData = UPDATE_USER_SCHEMA.parse(data);
-    return this.userRepository.updateOne(id, validatedData);
+    return this.userRepository.updateOne(id, UPDATE_USER_SCHEMA.parse(data));
   }
 }

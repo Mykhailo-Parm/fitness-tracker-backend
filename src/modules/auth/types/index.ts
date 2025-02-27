@@ -9,7 +9,7 @@ const LOGIN_SCHEMA = z.object({
 const SIGNUP_SCHEMA = z.object({
   name: z.string().min(2).max(50),
   email: z.string().email(),
-  password: z.string().min(6).max(30),
+  password: z.string().min(1),
 });
 
 interface AuthRequest extends Request {

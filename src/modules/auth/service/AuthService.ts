@@ -15,11 +15,7 @@ export class AuthService {
 
   async register(data: SIGNUP_SCHEMA_TYPE) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    return this.userRepository.createOne({
-      name: data.name,
-      email: data.email,
-      password: hashedPassword,
-    });
+    return this.userRepository.createOne(data);
   }
 
   async login(data: LOGIN_SCHEMA_TYPE) {

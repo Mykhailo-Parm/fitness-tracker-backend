@@ -18,7 +18,7 @@ class AuthController {
     try {
       const validatedData = SIGNUP_SCHEMA.parse(req.body);
       const user = await this.authService.register(validatedData);
-      res.status(201).json({ message: 'User created', user });
+      res.status(201).json({ user });
     } catch (error) {
       next(error)
     }

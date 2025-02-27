@@ -19,19 +19,11 @@ export class UserRepository implements IUserRepository {
   }
 
   async createOne(data: SIGNUP_SCHEMA_TYPE): Promise<User> {
-    try {
-      return await this.prisma.user.create({ data });
-    } catch (error) {
-      throw ApiError.BadRequest('Failed to create user');
-    }
+    return await this.prisma.user.create({ data });
   }
 
   async deleteOne(id: number): Promise<User> {
-    try {
-      return await this.prisma.user.delete({ where: { id } });
-    } catch (error) {
-      throw ApiError.NotFound('User not found or already deleted');
-    }
+    return await this.prisma.user.delete({ where: { id } });
   }
 
   async findByEmail(email: string): Promise<User | null> {

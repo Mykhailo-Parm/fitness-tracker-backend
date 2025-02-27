@@ -4,6 +4,8 @@ import { ExerciseRepository } from '@src/modules/exercise/repository/ExerciseRep
 import { ExerciseService } from '@src/modules/exercise/service/ExerciseService';
 import { UserRepository } from '@src/modules/user/repository/UserRepository';
 import { UserService } from '@src/modules/user/service/UserService';
+import { WorkoutRepository } from '@src/modules/workout/repository/WorkoutRepository';
+import { WorkoutService } from '@src/modules/workout/service/WorkoutService';
 import { asClass, asValue, createContainer } from 'awilix';
 
 const container = createContainer();
@@ -18,6 +20,8 @@ container.register({
   authService: asClass(AuthService).singleton(),
   exerciseRepository: asClass(ExerciseRepository).singleton(),
   exerciseService: asClass(ExerciseService).singleton(),
+  workoutRepository: asClass(WorkoutRepository).singleton(),
+  workoutService: asClass(WorkoutService).singleton(),
 });
 
 export default container;

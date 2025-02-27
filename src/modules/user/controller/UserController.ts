@@ -17,8 +17,7 @@ class UserController {
   @before(authMiddleware)
   async getLoggedInUser(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      const user = await this.userService.getUser(req.user.id);
-      res.status(200).json(user);
+      res.status(200).json(await this.userService.getUser(req.user.id));
     } catch (error) {
       next(error);
     }
