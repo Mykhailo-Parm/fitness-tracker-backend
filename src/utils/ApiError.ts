@@ -26,4 +26,8 @@ export class ApiError extends Error {
   static InvalidCredentials(message = 'Invalid credentials') {
     return new ApiError(401, message);
   }
+
+  static InvalidId(message = 'Invalid ID') {
+    return new ApiError(400, message);
+  }
 }

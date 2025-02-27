@@ -4,11 +4,13 @@ import cors from 'cors';
 import { loadControllers, scopePerRequest } from 'awilix-express';
 import container from './config/container';
 import dotenv from 'dotenv';
+import { errorHandler } from './middlewares/errorHandler';
 
 dotenv.config();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 8000;
+
 
 app.use(express.json());
 app.use(cors());
