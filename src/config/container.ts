@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client';
 import { AuthService } from '@src/modules/auth/service/AuthService';
 import { ExerciseRepository } from '@src/modules/exercise/repository/ExerciseRepository';
 import { ExerciseService } from '@src/modules/exercise/service/ExerciseService';
+import { SetRepository } from '@src/modules/set/repository/SetRepository';
+import { SetService } from '@src/modules/set/service/SetService';
 import { UserRepository } from '@src/modules/user/repository/UserRepository';
 import { UserService } from '@src/modules/user/service/UserService';
 import { WorkoutRepository } from '@src/modules/workout/repository/WorkoutRepository';
@@ -26,6 +28,8 @@ container.register({
   workoutService: asClass(WorkoutService).singleton(),
   workoutLogRepository: asClass(WorkoutLogRepository).singleton(),
   workoutLogService: asClass(WorkoutLogService).singleton(),
+  setRepository: asClass(SetRepository).singleton(),
+  setService: asClass(SetService).singleton(),
 });
 
 export default container;
